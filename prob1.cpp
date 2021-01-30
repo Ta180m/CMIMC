@@ -28,7 +28,7 @@ int solve_bound(int n, int m)
 {
     int BOUND;
     if (m == 40000) {
-        BOUND = 40;
+        BOUND = 46;
     } else if (m == 4000) {
         BOUND = 20;
     } else {
