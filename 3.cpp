@@ -4,6 +4,7 @@
 #include <utility>
 #include <chrono>
 #include <random>
+#include <cstring>
 
 using namespace std;
 
@@ -72,7 +73,7 @@ int get_score(vector<pair<int, int> >& ops)
 int main()
 {
     int testid;
-    scanf("%d%d%d", &r, &c, &n, &testid);
+    scanf("%d%d%d%d", &r, &c, &n, &testid);
     int tmp = 1;
     for (int i = 0; i <= r + 1; i++) {
         for (int j = 0; j <= c + 1; j++) {
@@ -106,7 +107,8 @@ int main()
         for (int i = 1; i <= n; i++) pperm[i] = perm[i];
         for (int i = 1; i <= 10; i++) {
             int a = rng() % n + 1;
-            int b = rng() % n + 1;
+            int b = a + (rng() % 5) + 1;
+            if (b > n) continue;
             swap(perm[a], perm[b]);
         }
         vector<pair<int, int> > ops;
@@ -124,9 +126,9 @@ int main()
                         fprintf(file, "L");
                     }
                 } else if (ops[i].first == -1) {
-                    printf(file, "U");
+                    fprintf(file, "U");
                 } else {
-                    printf(file, "D");
+                    fprintf(file, "D");
                 }
             }
             printf("%d\n", newscore);
