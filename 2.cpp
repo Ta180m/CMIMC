@@ -28,7 +28,10 @@ int main() {
         for (int a = j; a < k; ++a) {
             cen.f += P[a].f, cen.s += P[a].s;
         }
-        cout << (double)cen.f / (k-j) << ' ' << (double)cen.s / (k-j) << '\n';
+        double y = (double)cen.s / (k-j);
+        if (i%3 == 0) y += 25;
+        else if (i%3 == 1) y -= 25;
+        cout << (double)cen.f / (k-j) << ' ' << y << '\n';
         j = k;
     }
 
