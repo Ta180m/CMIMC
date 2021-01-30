@@ -105,10 +105,10 @@ int main()
     int curscore = 1000000000;
     while (true) {
         for (int i = 1; i <= n; i++) pperm[i] = perm[i];
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 3; i++) {
             int a = rng() % n + 1;
-            int b = a + (rng() % 5) + 1;
-            if (b > n) continue;
+            int b = rng() % n + 1;
+            //if (b > n) continue;
             swap(perm[a], perm[b]);
         }
         vector<pair<int, int> > ops;
@@ -135,7 +135,7 @@ int main()
             fclose(file);
             out_file[0] = 'p';
             file = fopen(out_file, "w");
-            for (int i = 1; i <= n; i++) fprintf(file, "%d", perm[i]);
+            for (int i = 1; i <= n; i++) fprintf(file, "%d ", perm[i]);
             fclose(file);
             curscore = newscore;
         } else {
