@@ -21,7 +21,7 @@ int main() {
 
     int sum = 0;
     for (int i = 0; i < M; ++i) sum += R[i];
-    int j = 1;
+    int j = 0;
     for (int i = 0; i < M; ++i) {
         int k = min(int(ceil(j+(double)R[i]/sum*N)), N);
         ii cen(0, 0);
