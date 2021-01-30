@@ -1,8 +1,13 @@
 #include <cstdio>
 #include <vector>
 #include <algorithm>
+#include <chrono>
+#include <random>
+#include <cstring>
 
 using namespace std;
+
+mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 bool comp[200005];
 
@@ -68,16 +73,17 @@ int solve_bound(int n, int m)
         int new_score = min(group1.size(), group2.size());
         //fprintf(stderr, "%d %d\n", (int)group1.size(), (int)group2.size());
         if (new_score > prev_score) {
+            FILE* file = fopen("1_3.out", "w");
             for (int i = 0; i < min(group1.size(), group2.size()); i++) {
-                printf("%d ", group1[i]);
+                fprintf(file, "%d ", group1[i]);
             }
-            printf("\n");
+            fprintf(file, "\n");
             for (int i = 0; i < min(group1.size(), group2.size()); i++) {
-                printf("%d ", group2[i]);
+                fprintf(file, "%d ", group2[i]);
             }
             prev_score = new_score;
+            printf("-- %d --\n", new_score);
         }
-        printf("-- %d --\n", new_score);
     }
 }
 
