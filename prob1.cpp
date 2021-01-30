@@ -10,12 +10,29 @@ bool comp[200005];
 
 int min_f[200005], max_f[200005];
 
+bool use_set[200005];
+
+vector<int> factors[200005];
+
 void find_all(int m, int min_factor, int max_factor, vector<int>& res)
 {
     for (int i = 2; i <= m; i++) {
         if (min_f[i] >= min_factor && max_f[i] <= max_factor) {
             res.push_back(i);
         }
+    }
+}
+
+void find_all(int m, bool inset, vector<int>& res)
+{
+    for (int i = 1; i <= m; i++) {
+        bool good = true;
+        for (int j = 0; j < factors[i].size(); j++) {
+            if (use_set[factors[i][j]] != inset) {
+                good = false; break;
+            }
+        }
+        if (good) res.push_back(i);
     }
 }
 
@@ -29,16 +46,38 @@ int solve_bound(int n, int m)
     } else {
         BOUND = 10;
     }
-    vector<int> group1, group2;
-    find_all(m, 1, BOUND, group1);
-    find_all(m, BOUND + 1, m, group2);
-    fprintf(stderr, "%d %d\n", (int)group1.size(), (int)group2.size());
-    for (int i = 0; i < min(group1.size(), group2.size()); i++) {
-        printf("%d ", group1[i]);
+    int maxv;
+    if (m == 40000) {
+        maxv = 300;
+    } else if (m == 4000) {
+        maxv = 100;
+    } else {
+        maxv = 30;
     }
-    printf("\n");
-    for (int i = 0; i < min(group1.size(), group2.size()); i++) {
-        printf("%d ", group2[i]);
+    for (int i = 1; i <= BOUND; i++) use_set[i] = true;
+    int prev_score = 0;
+    while (true) {
+        vector<int> group1, group2;
+        for (int i = 1; i <= 6; i++) {
+            int x = rng() % maxv + 2;
+            while (comp[x]) x = rng() % maxv + 2;
+            use_set[x] = !use_set[x];
+        }
+        find_all(m, true, group1);
+        find_all(m, false, group2);
+        int new_score = min(group1.size(), group2.size());
+        //fprintf(stderr, "%d %d\n", (int)group1.size(), (int)group2.size());
+        if (new_score > prev_score) {
+            for (int i = 0; i < min(group1.size(), group2.size()); i++) {
+                printf("%d ", group1[i]);
+            }
+            printf("\n");
+            for (int i = 0; i < min(group1.size(), group2.size()); i++) {
+                printf("%d ", group2[i]);
+            }
+            prev_score = new_score;
+        }
+        printf("-- %d --\n", new_score);
     }
 }
 
@@ -82,10 +121,12 @@ int main()
                 cur /= j;
                 max_f[i] = max(max_f[i], j);
                 min_f[i] = min(min_f[i], j);
+                factors[i].push_back(j);
                 good = false;
             }
         }
         if (cur > 1) {
+            factors[i].push_back(cur);
             max_f[i] = max(max_f[i], cur);
             min_f[i] = min(min_f[i], cur);
         }
