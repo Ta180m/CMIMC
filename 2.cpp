@@ -29,6 +29,7 @@ int main() {
             cen.f += P[a].f, cen.s += P[a].s;
         }
         cout << (double)cen.f / (k-j) << ' ' << (double)cen.s / (k-j) << '\n';
+        j = k;
     }
 
 }
