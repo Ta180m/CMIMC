@@ -12,8 +12,8 @@ for line in lines:
 R = open("r").readlines()
 ans = open("out").readlines()
 
-for i in range(0, 100):
-    c = plt.Circle((float(ans[i].split()[0]), float(ans[i].split()[1])), radius=int(R[i]))
+for i in range(0, 15):
+    c = plt.Circle((float(ans[i].split()[0]), float(ans[i].split()[1])), radius=int(R[i]), color=(0, 1, 0))
     plt.gca().add_artist(c)
 
 plt.scatter(x, y)
