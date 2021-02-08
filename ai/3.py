@@ -74,7 +74,6 @@ class spaceship_bot:
         
         # others
         for other in others:
-            if other[2] == 0: continue
             a,b = other[0],other[1]
             for move in self.moves:
                 key = (a+move[0], b+move[1])
@@ -94,9 +93,9 @@ class spaceship_bot:
             v = oc.get((a, b))
             if v == None: v = 0
             if status == -1:
-                score.append(angle-2*v-math.sqrt(a*a+b*b)/64) # adjust this constant
+                score.append(angle-v/2-math.sqrt(a*a+b*b)/64) # adjust this constant
             else:
-                score.append(-angle-2*v-math.sqrt(a*a+b*b)/64) # same
+                score.append(-angle-v/2-math.sqrt(a*a+b*b)/64) # same
         
         idx = score.index(max(score))
         return (self.moves[idx][0], self.moves[idx][1])
