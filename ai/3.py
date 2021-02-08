@@ -49,7 +49,7 @@
 
 # Example bot that moves in a random direction every round:
 
-import random
+import math
 
 class spaceship_bot:
     
@@ -60,7 +60,43 @@ class spaceship_bot:
     
     def move(self, ship, others):
         # You should write your code that moves every turn here
-        return random.choice(self.moves)
+        x,y = ship[0], ship[1]
+        status = ship[2]
+        score = ship[3]
+
+        # add possibly occupied positions to a dict
+        oc = dict()
+
+        # sun
+        for i in range(-2, 3):
+            for j in range(-2, 3):
+                oc[(i, j)] = 1e9
+        
+        # others
+        for other in others:
+            if other[2] == 0: continue
+            a,b = other[0],other[1]
+            for move in self.moves:
+                key = (a+move[0], b+move[1])
+                if key not in oc: oc[key] = 1
+                else: oc[key] += 1
+        
+        # now check all moves
+        score = []
+        for move in self.moves:
+            a,b = x+move[0],y+move[1]
+            angle = math.atan2(y, x)-math.atan2(b, a)
+            v = oc.get((a, b))
+            if v == None: v = 0
+            if status == 1:
+                score.append(angle-v/2) # adjust this constant
+            else:
+                score.append(-angle-v/2) # same
+        
+        idx = score.index(min(score))
+        return (self.moves[idx][0], self.moves[idx][1])
+
+
 
 
 #=============================================================================
@@ -82,11 +118,11 @@ SIDE = 10
 # Set a list of (arbitrarily many) strategies you would like to test locally
 
 LOCAL_STRATS = [
-    spaceship_bot(),
-    spaceship_bot(),
-    spaceship_bot(),
-    spaceship_bot(),
-    spaceship_bot(),
+    #spaceship_bot(),
+    #spaceship_bot(),
+    #spaceship_bot(),
+    #spaceship_bot(),
+    #spaceship_bot(),
     spaceship_bot()
     ]
 
