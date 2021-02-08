@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # Spaceship Starter File
 
 # NOTE: You can run this file locally to test if your program is working.
