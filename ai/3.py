@@ -83,17 +83,22 @@ class spaceship_bot:
         
         # now check all moves
         score = []
+        it = math.atan2(y,x)
+        low,high = it-math.pi,it+math.pi
         for move in self.moves:
             a,b = x+move[0],y+move[1]
-            angle = math.atan2(y, x)-math.atan2(b, a)
+            angle = math.atan2(b, a)
+            while angle > high: angle -= 2*math.pi
+            while angle < low: angle += 2*math.pi
+            angle = it-angle
             v = oc.get((a, b))
             if v == None: v = 0
-            if status == 1:
-                score.append(angle-v/2) # adjust this constant
+            if status == -1:
+                score.append(angle-2*v-math.sqrt(a*a+b*b)/64) # adjust this constant
             else:
-                score.append(-angle-v/2) # same
+                score.append(-angle-2*v-math.sqrt(a*a+b*b)/64) # same
         
-        idx = score.index(min(score))
+        idx = score.index(max(score))
         return (self.moves[idx][0], self.moves[idx][1])
 
 
@@ -113,22 +118,25 @@ LOCAL_VIEW = True
 # The first ship will be displayed as "1", other ships will be displayed as "0",
 # crashed ships will be displayed as "X", and the sun will be displayed as "S".
 
-SIDE = 10
+SIDE = 20
 
 # Set a list of (arbitrarily many) strategies you would like to test locally
 
 LOCAL_STRATS = [
-    #spaceship_bot(),
-    #spaceship_bot(),
-    #spaceship_bot(),
-    #spaceship_bot(),
-    #spaceship_bot(),
+    spaceship_bot(),
+    spaceship_bot(),
+    spaceship_bot(),
+    spaceship_bot(),
+    spaceship_bot(),
+    spaceship_bot(),
+    spaceship_bot(),
+    spaceship_bot(),
     spaceship_bot()
     ]
 
 # Set how many rounds you would like the game to run for (official is 500)
 
-ROUNDS = 10
+ROUNDS = 50
 
 #=============================================================================
 
